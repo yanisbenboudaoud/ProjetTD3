@@ -2,6 +2,7 @@
 #pragma once
 #include <string>
 #include "Liste.hpp"
+#include "Concepteur.hpp"
 
 class Jeu
 {
@@ -29,7 +30,7 @@ public:
 
 
 	//TODO: Votre méthode pour trouver un concepteur selon un critère donné par une lambda, en utilisant la méthode de Liste.
-	std::shared_ptr<Concepteur> trouverConcepteur(const string& nom) const {
+	std::shared_ptr<Concepteur> trouverConcepteur(const std::string& nom) const {
 		return concepteur_.trouver([&](const std::shared_ptr<Concepteur>& c) {
         return c->getNom() == nom; 
     });
