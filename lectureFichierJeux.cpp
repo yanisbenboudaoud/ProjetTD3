@@ -2,7 +2,9 @@
 #include "lectureFichierJeux.hpp"
 #include <fstream>
 #include <cstdint>
+#include <memory>
 #include "cppitertools/range.hpp"
+#include "Jeu.hpp"
 using namespace std;
 
 using UInt8  = uint8_t;
@@ -24,6 +26,7 @@ UInt16 lireUint16(istream& fichier)
 	return valeur;
 }
 
+
 string lireString(istream& fichier)
 {
 	string texte;
@@ -33,35 +36,49 @@ string lireString(istream& fichier)
 }
 #pragma endregion
 
-Concepteur* chercherConcepteur(ListeJeux& listeJeux, const string& nom)
+shared_ptr<Concepteur> chercherConcepteur(ListeJeux& listeJeux, const string& nom)
 {
 	//TODO: Compléter la fonction (équivalent de trouverDesigner du TD2).
-	return {};
+	for (unsigned int i = 0; i < listeJeux.size(); i++) {
+		auto concepteur = listeJeux[i]->trouverConcepteur(nom);
+		if (concepteur != nullptr) {
+			return concepteur;
+		}
+		return nullptr;
+	}
+	
 }
 
-Concepteur* lireConcepteur(ListeJeux& lj, istream& f)
+shared_ptr<Concepteur> lireConcepteur(ListeJeux& lj, std::istream& f)
 {
 	string nom              = lireString(f);
 	unsigned anneeNaissance = lireUint16(f);
 	string pays             = lireString(f);
 
 	//TODO: Compléter la fonction (équivalent de lireDesigner du TD2).
+	shared_ptr<Concepteur> existant = chercherConcepteur(lj, nom);
+	if (existant != nullptr) {
+		return existant; 
+	}
 	cout << "C: " << nom << endl;  //TODO: Enlever cet affichage temporaire servant à voir que le code fourni lit bien les jeux.
-	return {};
+	return make_shared<Concepteur>(nom, anneeNaissance, pays);
 }
 
-Jeu* lireJeu(istream& f, ListeJeux& lj)
+shared_ptr<Jeu> lireJeu(istream& f, ListeJeux& lj)
 {
 	string titre          = lireString(f);
 	unsigned anneeSortie  = lireUint16(f);
 	string developpeur    = lireString(f);
 	unsigned nConcepteurs = lireUint8(f);
 	//TODO: Compléter la fonction (équivalent de lireJeu du TD2).
-	for (unsigned int i = 0; i < nConcepteurs; i++)
-		lireConcepteur(lj, f);
-
+	auto jeu = make_shared<Jeu>(titre, anneeSortie, developpeur);
+	for (unsigned int i = 0; i < nConcepteurs; i++) {
+	        auto concepteur = lireConcepteur(lj, f);
+			jeu->getConcepteurs().ajouter(concepteur);
+	}
+	lj.ajouter(jeu);
 	cout << "J: " << titre << endl;  //TODO: Enlever cet affichage temporaire servant à voir que le code fourni lit bien les jeux.
-	return {};
+	return jeu;
 }
 
 ListeJeux creerListeJeux(const string& nomFichier)

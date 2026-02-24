@@ -9,22 +9,44 @@
 using namespace std;
 
 //TODO: Vos surcharges d'opérateur <<
+ostream& operator << (ostream& os, const Concepteur& c) {
+	os << c.getNom() << ", " << c.getAnneeNaissance() << ", " << c.getPays();
+	return os;
+}
+ostream& operator<<(ostream& os,  const Jeu& j) {
+	os << "Titre: " << j.getTitre() << " (" << j.getAnneeSortie() << ")" << endl;
+	os << "Developpeur: " << j.getDeveloppeur() << endl;
+	os << "Concepteurs: " << endl;
+
+	for (unsigned int i = 0; i < j.getConcepteurs().size(); i++) {
+		os << "  - " << *(j.getConcepteurs()[i]) << endl;
+	}
+	return os;
+}
+ostream& operator<<(ostream& os, const ListeJeux& lj) {
+	for (unsigned int i = 0; i < lj.size(); i++) {
+		os << *(lj[i]) << endl; // On affiche chaque jeu un par un
+		os << "-------------------------------------------" << endl;
+	}
+	return os;
+}
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
-	#pragma region "Bibliothèque du cours"
+#pragma region "Bibliothèque du cours"
 	// Permet sous Windows les "ANSI escape code" pour changer de couleur
 	// https://en.wikipedia.org/wiki/ANSI_escape_code ; les consoles Linux/Mac
 	// les supportent normalement par défaut.
-	bibliotheque_cours::activerCouleursAnsi(); 
-	#pragma endregion
-	
+	bibliotheque_cours::activerCouleursAnsi();
+#pragma endregion
+
 	ListeJeux listeJeux = creerListeJeux("jeux.bin");
 	static const string ligneSeparation = "\n\033[92m"
 		"══════════════════════════════════════════════════════════════════════════"
 		"\033[0m\n";
 
 	//TODO: L'affichage de listeJeux et l'écriture dans le fichier devraient fonctionner.
+	cout << listeJeux << endl;
 
 
 	//TODO: Compléter le main avec les tests demandés.

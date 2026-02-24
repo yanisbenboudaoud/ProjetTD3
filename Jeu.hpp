@@ -1,5 +1,7 @@
-﻿#pragma once
+﻿
+#pragma once
 #include <string>
+#include "Liste.hpp"
 
 class Jeu
 {
@@ -8,7 +10,7 @@ public:
 	Jeu() : anneeSortie_(0) {}
 
 	Jeu(const std::string& titre, unsigned anneeSortie, std::string developpeur)
-		: titre_(titre),
+		:titre_(titre),
 		anneeSortie_(anneeSortie),
 		developpeur_(developpeur)
 	{
@@ -22,16 +24,23 @@ public:
 	void setDeveloppeur(std::string developpeur) { developpeur_ = move(developpeur); }
 
 	//TODO: Pouvoir accéder à la liste de concepteurs.
+	const Liste<Concepteur>& getConcepteurs() const { return concepteur_; }
+	Liste<Concepteur>& getConcepteurs() { return concepteur_; }
 
 
 	//TODO: Votre méthode pour trouver un concepteur selon un critère donné par une lambda, en utilisant la méthode de Liste.
-
+	std::shared_ptr<Concepteur> trouverConcepteur(const string& nom) const {
+		return concepteur_.trouver([&](const std::shared_ptr<Concepteur>& c) {
+        return c->getNom() == nom; 
+    });
+	}
 
 private:
 	std::string titre_;
 	unsigned anneeSortie_;
 	std::string developpeur_;
 	//TODO: Attribut de la liste des concepteurs du jeu
+	Liste<Concepteur> concepteur_;
 };
 
-struct ListeJeux{};  //TODO: Remplacer cette définition (qui est ici juste pour que le code fourni compile) pour que ListeJeux soit une Liste<Jeu> .
+using ListeJeux = Liste<Jeu>;  //TODO: Remplacer cette définition (qui est ici juste pour que le code fourni compile) pour que ListeJeux soit une Liste<Jeu> .
