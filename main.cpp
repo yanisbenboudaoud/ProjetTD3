@@ -50,10 +50,10 @@ int main() {
 	cout << "TEST DE LA COPIE (Point 7) :" << endl;
 	if (lj.size() >= 3) {
 		Jeu copieJeu = *lj[2]; 
-
+	
 		
-		if (copieJeu.getConcepteurs().size() >= 2 && (lj)[0]->getConcepteurs().size() >= 1) {
-			copieJeu.getConcepteurs()[1] = (lj)[0]->getConcepteurs()[0];
+		if (copieJeu.getConcepteurs().size() >= 2 && lj[0]->getConcepteurs().size() >= 1) {
+			copieJeu.getConcepteurs()[1] = lj[0]->getConcepteurs()[0];
 		}
 
 		cout << "Jeu original à l'indice 2 :" << endl << *lj[2] << endl;

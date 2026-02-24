@@ -20,18 +20,6 @@ public:
 		}
 	}
 
-	Liste& operator=(const Liste& autre) {
-		if (this != &autre) {
-			nElements_ = autre.nElements_;
-			capacite_ = autre.nElements_;
-			elements_ = std::make_unique<std::shared_ptr<T>[]>(capacite_);
-			for (unsigned i = 0; i < nElements_; ++i) {
-				elements_[i] = autre.elements_[i];
-			}
-		}
-		return *this;
-	}
-
 	std::shared_ptr<T>& operator[](unsigned index) { return elements_[index]; }
 	const std::shared_ptr<T>& operator[](unsigned index) const { return elements_[index]; }
 
