@@ -34,36 +34,40 @@ ostream& operator<<(ostream& os, const Liste<T>& liste) {
 int main() {
 	bibliotheque_cours::activerCouleursAnsi();
 
-	unique_ptr<ListeJeux> lj = creerListeJeux("jeux.bin");
+	ListeJeux lj = creerListeJeux("jeux.bin");
 
 	static const string ligneSeparation = "\n\033[92m══════════════════════════════════════════════\033[0m\n";
 
 	// Point 6: Affichage console et fichier
 	cout << "CONTENU DE LA LISTE DE JEUX :" << endl;
-	cout << *lj << ligneSeparation << endl;
+	cout << lj << ligneSeparation << endl;
 
 	ofstream fichierSortie("sortie.txt");
 	if (fichierSortie) {
-		fichierSortie << *lj;
+		fichierSortie << lj;
 	}
 
 	cout << "TEST DE LA COPIE (Point 7) :" << endl;
-	if (lj->size() >= 3) {
-		Jeu copieJeu = *(*lj)[2]; 
+	if (lj.size() >= 3) {
+		Jeu copieJeu = *lj[2]; 
 
 		
-		if (copieJeu.getConcepteurs().size() >= 2 && (*lj)[0]->getConcepteurs().size() >= 1) {
-			copieJeu.getConcepteurs()[1] = (*lj)[0]->getConcepteurs()[0];
+		if (copieJeu.getConcepteurs().size() >= 2 && (lj)[0]->getConcepteurs().size() >= 1) {
+			copieJeu.getConcepteurs()[1] = (lj)[0]->getConcepteurs()[0];
 		}
 
-		cout << "Jeu original à l'indice 2 :" << endl << *(*lj)[2] << endl;
+		cout << "Jeu original à l'indice 2 :" << endl << *lj[2] << endl;
 		cout << "Copie modifiée :" << endl << copieJeu << endl;
 
 		cout << "Verification des adresses du premier concepteur :" << endl;
-		cout << "Original: " << (*lj)[2]->getConcepteurs()[0].get() << endl;
+		cout << "Original: " << lj[2]->getConcepteurs()[0].get() << endl;
 		cout << "Copie   : " << copieJeu.getConcepteurs()[0].get() << endl;
 		cout << "Ce sont les memes adresses (partage de shared_ptr)." << endl;
 	}
 
 	return 0;
+//TODO: Compléter le main avec les tests demandés.
+//TODO: S'assurer qu'aucune ligne de code est non couverte.
+//NOTE: Il n'est pas nécessaire de couvrir les getters/setters simples fournis; il faut tester si vous en ajoutez ou les modifiez.
+//NOTE: Pour Liste, qui est générique, on demande de couvrir uniquement pour Liste<Jeu>, pas pour tous les types.
 }

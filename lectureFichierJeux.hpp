@@ -7,4 +7,4 @@
 std::shared_ptr<Concepteur> chercherConcepteur(ListeJeux& listeJeux, const std::string& nom);
 std::shared_ptr<Concepteur> lireConcepteur(ListeJeux& lj, std::istream& f);
 std::shared_ptr<Jeu> lireJeu(std::istream& f, ListeJeux& lj);
-std::unique_ptr<Liste<Jeu>>  creerListeJeux(const std::string& nomFichier);
+ListeJeux  creerListeJeux(const std::string& nomFichier);

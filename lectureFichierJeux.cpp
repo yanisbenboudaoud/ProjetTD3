@@ -55,13 +55,13 @@ shared_ptr<Jeu> lireJeu(istream& f, ListeJeux& lj) {
 	return jeu;
 }
 
-unique_ptr<ListeJeux> creerListeJeux(const string& nomFichier) {
+ListeJeux creerListeJeux(const string& nomFichier) {
 	ifstream fichier(nomFichier, ios::binary);
 	fichier.exceptions(ios::failbit);
 	int nElements = lire<uint16_t>(fichier);
-	auto listeJeux = make_unique<ListeJeux>();
+	ListeJeux listeJeux;
 	for ([[maybe_unused]] int n : iter::range(nElements)) {
-		listeJeux->ajouter(lireJeu(fichier, *listeJeux));
+		listeJeux.ajouter(lireJeu(fichier, listeJeux));
 	}
 	return listeJeux;
 }
